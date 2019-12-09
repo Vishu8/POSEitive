@@ -1,0 +1,45 @@
+<mat-card [class.mat-elevation-z8]="isActive">
+  <mat-card-title>
+    <img class="poseitive-logo" src="assets/images/poseitive-logo.png">
+  </mat-card-title>
+  <mat-card-title>
+    <h3>Login</h3>
+  </mat-card-title>
+  <form>
+    <mat-form-field>
+      <input matInput type="email" placeholder="Email" required>
+      <mat-icon matSuffix>email</mat-icon>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput type="password" placeholder="Password" required>
+      <mat-icon matSuffix>lock</mat-icon>
+    </mat-form-field>
+  </form>
+  <mat-card-subtitle class="forgot-password">
+    <a>Forgot Password?</a>
+  </mat-card-subtitle>
+  <mat-card-actions>
+    <button mat-mini-fab class="login" color="accent">Login</button>
+  </mat-card-actions>
+  <mat-card-content class="register">
+    <p>Not a member? <a class="register-link" [routerLink]="['/auth/signup']" routerLinkActive="router-link-active" >Register</a></p>
+  </mat-card-content>
+  <div class="strike">
+    <span>OR</span>
+  </div>
+  <p>Sign In with:</p>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm">
+        <button mat-mini-fab class="google">
+          <img src="assets/images/google.png">
+        </button>
+      </div>
+      <div class="col-sm">
+        <button mat-mini-fab class="facebook">
+          <img src="assets/images/facebook.png">
+        </button>
+      </div>
+    </div>
+  </div>
+</mat-card>

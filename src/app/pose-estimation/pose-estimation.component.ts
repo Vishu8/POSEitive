@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as posenet from '@tensorflow-models/posenet';
-import { from, defer, animationFrameScheduler, timer, of, Observable } from 'rxjs';
-import { concatMap, tap, map, observeOn, takeUntil, repeat } from 'rxjs/operators';
+import { from, defer, animationFrameScheduler, timer } from 'rxjs';
+import { concatMap, tap, observeOn, takeUntil, repeat } from 'rxjs/operators';
 import { SubSink } from 'subsink';
 
 @Component({
@@ -80,6 +80,7 @@ export class PoseEstimationComponent implements OnInit, OnDestroy {
     const minConfidence = 0.15;
     if (prediction.score >= minConfidence) {
       this.drawKeypoints(prediction.keypoints, minConfidence, ctx);
+      console.log(prediction.keypoints);
     }
   }
 

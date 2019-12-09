@@ -1,4 +1,9 @@
+* {
+  overflow: hidden;
+}
+
 .text {
+  color: whitesmoke;
   text-align: center;
 }
 
