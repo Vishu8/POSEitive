@@ -13,13 +13,13 @@ export class PoseEstimationComponent implements OnInit, OnDestroy {
   private subs = new SubSink();
   color = 'red';
   video: HTMLVideoElement;
-  waitingText: string;
+  isLoaded = false;
 
   ngOnInit() {
     this.webcam_init();
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
       navigator.mediaDevices.getUserMedia({ video: true }).then(() => {
-        this.waitingText = '<h2>Please sit in correct Posture for some time!</h2>';
+        this.isLoaded = true;
         const action$ = (model: posenet.PoseNet) =>
           defer(() => model.estimateSinglePose(this.video)).pipe(
             observeOn(animationFrameScheduler),
