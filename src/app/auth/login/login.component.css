@@ -1,0 +1,140 @@
+mat-card {
+  width: 30%;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+mat-card-title {
+  padding-top: 3%;
+  padding-bottom: 3%;
+  text-align: center;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+.forgot-password {
+  float: right;
+  cursor: pointer;
+}
+
+.forgot-password:hover {
+  text-decoration: underline;
+}
+
+.login {
+  width: 98%;
+  font-size: 18px;
+  border-radius: 30px;
+}
+
+.register-link {
+  color: whitesmoke;
+}
+
+.register-link:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+span {
+  font-size: 20px;
+}
+
+.strike {
+  display: block;
+  text-align: center;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.strike>span {
+  position: relative;
+  display: inline-block;
+}
+
+.strike>span:before,
+.strike>span:after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 9999px;
+  height: 1px;
+  background: #262626;
+}
+
+.strike>span:before {
+  right: 100%;
+  margin-right: 15px;
+}
+
+.strike>span:after {
+  left: 100%;
+  margin-left: 15px;
+}
+
+.container-fluid {
+  width: 40%;
+}
+
+.google, .facebook {
+  background-color: whitesmoke;
+}
+
+@media only screen and (max-width: 1200px) {
+  mat-card {
+    width: 50%;
+  }
+}
+
+@media only screen and (max-width: 1024px) {
+  mat-card {
+    width: 50%;
+  }
+}
+
+@media only screen and (max-width: 835px) {
+  mat-card {
+    width: 50%;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  mat-card {
+    width: 80%;
+  }
+}
+
+@media only screen and (max-width: 415px) {
+  mat-card {
+    width: 80%;
+  }
+
+  .poseitive-logo {
+    width: 90%;
+  }
+}
+
+@media only screen and (max-width: 375px) {
+  mat-card {
+    width: 80%;
+  }
+
+  .poseitive-logo {
+    width: 90%;
+  }
+}
+
+@media only screen and (max-width: 320px) {
+  mat-card {
+    width: 80%;
+  }
+
+  .poseitive-logo {
+    width: 90%;
+  }
+}
