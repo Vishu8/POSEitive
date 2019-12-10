@@ -4,6 +4,7 @@ import { from, defer, animationFrameScheduler, timer } from 'rxjs';
 import { concatMap, tap, observeOn, takeUntil, repeat } from 'rxjs/operators';
 import { SubSink } from 'subsink';
 
+enum Points { nose = 0, leftEye = 1, rightEye = 2, leftShoulder = 5, rightShoulder = 6 }
 @Component({
   selector: 'app-pose',
   templateUrl: './pose-estimation.component.html',
@@ -14,11 +15,69 @@ export class PoseEstimationComponent implements OnInit, OnDestroy {
   color = 'red';
   video: HTMLVideoElement;
   isLoaded = false;
+  time = 5;
+  interval: any;
+  nosex = [];
+  nosey = [];
+  leftEyex = [];
+  leftEyey = [];
+  rightEyex = [];
+  rightEyey = [];
+  leftShoulderx = [];
+  leftShouldery = [];
+  rightShoulderx = [];
+  rightShouldery = [];
+  nosexValue: number;
+  noseyValue: number;
+  leftEyexValue: number;
+  leftEyeyValue: number;
+  rightEyexValue: number;
+  rightEyeyValue: number;
+  leftShoulderxValue: number;
+  leftShoulderyValue: number;
+  rightShoulderxValue: number;
+  rightShoulderyValue: number;
+
+  mode(pointValues: any[]) {
+    const mode = {};
+    let max = 0;
+    let count = 0;
+
+    pointValues.forEach((e) => {
+      if (mode[e]) {
+        mode[e]++;
+      } else {
+        mode[e] = 1;
+      }
+
+      if (count < mode[e]) {
+        max = e;
+        count = mode[e];
+      }
+    });
+
+    return max;
+  }
+
+  startTimer() {
+    this.interval = setInterval(() => {
+      if (this.time > 0) {
+        this.time--;
+      } else {
+        this.stopTimer();
+      }
+    }, 1000);
+  }
+
+  stopTimer() {
+    clearInterval(this.interval);
+  }
 
   ngOnInit() {
     this.webcam_init();
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
       navigator.mediaDevices.getUserMedia({ video: true }).then(() => {
+        this.startTimer();
         this.isLoaded = true;
         const action$ = (model: posenet.PoseNet) =>
           defer(() => model.estimateSinglePose(this.video)).pipe(
@@ -80,7 +139,16 @@ export class PoseEstimationComponent implements OnInit, OnDestroy {
     const minConfidence = 0.15;
     if (prediction.score >= minConfidence) {
       this.drawKeypoints(prediction.keypoints, minConfidence, ctx);
-      console.log(prediction.keypoints);
+    }
+    if (
+      this.time > 0
+      && prediction.keypoints[Points.nose].score > 0.9
+      && prediction.keypoints[Points.leftEye].score > 0.9
+      && prediction.keypoints[Points.rightEye].score > 0.9
+      && prediction.keypoints[Points.leftShoulder].score > 0.9
+      && prediction.keypoints[Points.rightShoulder].score > 0.9
+    ) {
+      this.setValues(prediction);
     }
   }
 
@@ -110,5 +178,31 @@ export class PoseEstimationComponent implements OnInit, OnDestroy {
       const { y, x } = keypoint.position;
       this.drawPoint(ctx, y * scale, x * scale, 3, this.color);
     }
+  }
+
+  setValues(prediction: any) {
+    this.nosex.push(prediction.keypoints[Points.nose].position.x);
+    this.nosey.push(prediction.keypoints[Points.nose].position.y);
+    this.leftEyex.push(prediction.keypoints[Points.leftEye].position.x);
+    this.leftEyey.push(prediction.keypoints[Points.leftEye].position.y);
+    this.rightEyex.push(prediction.keypoints[Points.rightEye].position.x);
+    this.rightEyey.push(prediction.keypoints[Points.rightEye].position.y);
+    this.leftShoulderx.push(prediction.keypoints[Points.leftShoulder].position.x);
+    this.leftShouldery.push(prediction.keypoints[Points.leftShoulder].position.y);
+    this.rightShoulderx.push(prediction.keypoints[Points.rightShoulder].position.x);
+    this.rightShouldery.push(prediction.keypoints[Points.rightShoulder].position.y);
+  }
+
+  saveValues() {
+    this.nosexValue = this.mode(this.nosex);
+    this.noseyValue = this.mode(this.nosey);
+    this.leftEyexValue = this.mode(this.leftEyex);
+    this.leftEyeyValue = this.mode(this.leftEyey);
+    this.rightEyexValue = this.mode(this.rightEyex);
+    this.rightEyeyValue = this.mode(this.rightEyey);
+    this.leftShoulderxValue = this.mode(this.leftShoulderx);
+    this.leftShoulderyValue = this.mode(this.leftShouldery);
+    this.rightShoulderxValue = this.mode(this.rightShoulderx);
+    this.rightShoulderyValue = this.mode(this.rightShouldery);
   }
 }

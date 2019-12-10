@@ -5,10 +5,60 @@
 .text {
   color: whitesmoke;
   text-align: center;
+  margin-top: 5%;
 }
 
 .center {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.pose-video {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@media only screen and (max-width: 1200px) {
+  .pose-video {
+    width: 80%;
+  }
+}
+
+@media only screen and (max-width: 1024px) {
+  .pose-video {
+    width: 80%;
+  }
+}
+
+@media only screen and (max-width: 835px) {
+  .pose-video {
+    width: 80%;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .pose-video {
+    width: 80%;
+  }
+}
+
+@media only screen and (max-width: 415px) {
+  .pose-video {
+    width: 80%;
+  }
+}
+
+@media only screen and (max-width: 375px) {
+  .pose-video {
+    width: 80%;
+  }
+}
+
+@media only screen and (max-width: 320px) {
+  .pose-video {
+    width: 80%;
+  }
 }
