@@ -15,6 +15,8 @@ import {
   MatProgressBarModule
 } from '@angular/material';
 import { SignUpComponent } from './auth/signup/signup.component';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -28,6 +30,8 @@ import { SignUpComponent } from './auth/signup/signup.component';
     AppRoutingModule,
     BrowserAnimationsModule,
     LoadingBarRouterModule,
+    FormsModule,
+    HttpClientModule,
     MatCardModule,
     MatInputModule,
     MatButtonModule,

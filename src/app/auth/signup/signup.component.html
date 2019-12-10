@@ -6,42 +6,47 @@
   <mat-card-title>
     <h3>Sign Up</h3>
   </mat-card-title>
-  <form>
+  <form (submit)="onSignup(signupForm)" #signupForm="ngForm">
     <mat-form-field>
-      <input matInput type="text" placeholder="Full Name" required>
+      <input matInput ngModel name="fullname" type="text" placeholder="Full Name" #fullnameInput="ngModel"  required>
       <mat-icon matSuffix>account_circle</mat-icon>
+      <mat-error *ngIf="fullnameInput.invalid">Please Enter Valid Name!</mat-error>
     </mat-form-field>
     <mat-form-field>
-      <input matInput type="email" placeholder="Email" required>
+      <input matInput ngModel name="email" type="email" placeholder="Email" #emailInput="ngModel" required>
       <mat-icon matSuffix>email</mat-icon>
+      <mat-error *ngIf="emailInput.invalid">Please Enter Valid Email!</mat-error>
     </mat-form-field>
     <mat-form-field>
-      <input matInput type="password" placeholder="Password" required>
+      <input matInput ngModel name="password" type="password" placeholder="Password" #passwordInput="ngModel" required
+        email>
       <mat-icon matSuffix>lock</mat-icon>
+      <mat-error *ngIf="passwordInput.invalid">Please Enter Valid Password!</mat-error>
     </mat-form-field>
-  </form>
-  <mat-card-actions>
-    <button mat-mini-fab class="signup" color="primary">Sign Up</button>
-  </mat-card-actions>
-  <mat-card-content class="login">
-    <p>Already a member? <a class="login-link" [routerLink]="['/auth/login']" routerLinkActive="router-link-active" >Login</a></p>
-  </mat-card-content>
-  <div class="strike">
-    <span>OR</span>
-  </div>
-  <p>Sign Up with:</p>
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-sm">
-        <button mat-mini-fab class="google">
-          <img src="assets/images/google.png">
-        </button>
-      </div>
-      <div class="col-sm">
-        <button mat-mini-fab class="facebook">
-          <img src="assets/images/facebook.png">
-        </button>
+    <mat-card-actions>
+      <button mat-mini-fab class="signup" type="submit" color="primary">Sign Up</button>
+    </mat-card-actions>
+    <mat-card-content class="login">
+      <p>Already a member? <a class="login-link" [routerLink]="['/auth/login']"
+          routerLinkActive="router-link-active">Login</a></p>
+    </mat-card-content>
+    <div class="strike">
+      <span>OR</span>
+    </div>
+    <p>Sign Up with:</p>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm">
+          <button mat-mini-fab class="google">
+            <img src="assets/images/google.png">
+          </button>
+        </div>
+        <div class="col-sm">
+          <button mat-mini-fab class="facebook">
+            <img src="assets/images/facebook.png">
+          </button>
+        </div>
       </div>
     </div>
-  </div>
+  </form>
 </mat-card>
