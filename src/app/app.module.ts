@@ -1,12 +1,19 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PoseEstimationComponent } from './pose-estimation/pose-estimation.component';
 import { LoginComponent } from './auth/login/login.component';
-import { MatCardModule, MatInputModule, MatButtonModule, MatIconModule } from '@angular/material';
+import {
+  MatCardModule,
+  MatInputModule,
+  MatButtonModule,
+  MatIconModule,
+  MatProgressBarModule
+} from '@angular/material';
 import { SignUpComponent } from './auth/signup/signup.component';
 
 @NgModule({
@@ -20,10 +27,12 @@ import { SignUpComponent } from './auth/signup/signup.component';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    LoadingBarRouterModule,
     MatCardModule,
     MatInputModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    MatProgressBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]
