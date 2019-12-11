@@ -1,19 +1,15 @@
 import { Injectable } from '@angular/core';
 import { PoseData } from './pose-data.model';
 import { HttpClient } from '@angular/common/http';
-import { Router, RoutesRecognized } from '@angular/router';
+import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 
 const BACKEND_URL = environment.apiUrl + '/pose/';
 @Injectable({ providedIn: 'root' })
 export class PoseService {
   constructor(private http: HttpClient, private router: Router) { }
-  getUserId(id: string) {
-    return id;
-  }
 
   addPose(
-    userId: string,
     nosexValue: number,
     noseyValue: number,
     leftEyexValue: number,
@@ -26,7 +22,7 @@ export class PoseService {
     rightShoulderyValue: number,
   ) {
     const poseData: PoseData = {
-      userId,
+      userId: sessionStorage.getItem('userId'),
       nosexValue,
       noseyValue,
       leftEyexValue,
@@ -39,7 +35,8 @@ export class PoseService {
       rightShoulderyValue,
     };
     return this.http.post<{ message: string }>(BACKEND_URL, poseData).subscribe((response) => {
-      this.router.navigate(['/']);
+      window.location.assign('/');
+      sessionStorage.removeItem('userId');
       console.log(response.message);
     });
   }
