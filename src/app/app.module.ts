@@ -5,7 +5,7 @@ import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { PoseEstimationComponent } from './pose-estimation/pose-estimation.component';
+import { PoseEstimationComponent } from './pose/pose-estimation/pose-estimation.component';
 import { LoginComponent } from './auth/login/login.component';
 import {
   MatCardModule,

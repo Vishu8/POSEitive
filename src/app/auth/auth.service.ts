@@ -18,7 +18,7 @@ export class AuthService {
   createUser(fullname: string, email: string, password: string) {
     const authData: AuthData = { fullname, email, password };
     return this.http.post<{ message: string }>(BACKEND_URL + '/signup', authData).subscribe((response) => {
-      this.router.navigate(['/pose']);
+      this.router.navigate(['/pose-estimation']);
       console.log(response.message);
     }, (error) => {
       this.authStatusListener.next(false);
