@@ -1,0 +1,15 @@
+name: POSEitive Build
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Angular Server Run
+      run: ng serve
+    - name: NodeJS Server Run
+      run: nodemon server.js
