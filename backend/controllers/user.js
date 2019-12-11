@@ -12,7 +12,7 @@ exports.createUser = (req, res, next) => {
     user.save().then((result) => {
       res.status(201).json({
         message: 'User Created Successfully!',
-        result: result
+        userId: result._id
       });
     }).catch((err) => {
       res.status(500).json({

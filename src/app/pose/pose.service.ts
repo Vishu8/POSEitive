@@ -8,7 +8,12 @@ const BACKEND_URL = environment.apiUrl + '/pose/';
 @Injectable({ providedIn: 'root' })
 export class PoseService {
   constructor(private http: HttpClient, private router: Router) { }
+  getUserId(id: string) {
+    return id;
+  }
+
   addPose(
+    userId: string,
     nosexValue: number,
     noseyValue: number,
     leftEyexValue: number,
@@ -21,6 +26,7 @@ export class PoseService {
     rightShoulderyValue: number,
   ) {
     const poseData: PoseData = {
+      userId,
       nosexValue,
       noseyValue,
       leftEyexValue,
