@@ -3,6 +3,9 @@ import * as posenet from '@tensorflow-models/posenet';
 import { from, defer, animationFrameScheduler, timer } from 'rxjs';
 import { concatMap, tap, observeOn, takeUntil, repeat } from 'rxjs/operators';
 import { SubSink } from 'subsink';
+import { PoseService } from '../pose.service';
+import { Router } from '@angular/router';
+import { LoadingBarService } from '@ngx-loading-bar/core';
 
 enum Points { nose = 0, leftEye = 1, rightEye = 2, leftShoulder = 5, rightShoulder = 6 }
 @Component({
@@ -16,7 +19,9 @@ export class PoseEstimationComponent implements OnInit, OnDestroy {
   video: HTMLVideoElement;
   isLoaded = false;
   time = 5;
+  mySubscription: any;
   interval: any;
+  isSaved: boolean;
   nosex = [];
   nosey = [];
   leftEyex = [];
@@ -27,16 +32,8 @@ export class PoseEstimationComponent implements OnInit, OnDestroy {
   leftShouldery = [];
   rightShoulderx = [];
   rightShouldery = [];
-  nosexValue: number;
-  noseyValue: number;
-  leftEyexValue: number;
-  leftEyeyValue: number;
-  rightEyexValue: number;
-  rightEyeyValue: number;
-  leftShoulderxValue: number;
-  leftShoulderyValue: number;
-  rightShoulderxValue: number;
-  rightShoulderyValue: number;
+
+  constructor(public poseService: PoseService, public loader: LoadingBarService, private router: Router) { }
 
   mode(pointValues: any[]) {
     const mode = {};
@@ -65,6 +62,7 @@ export class PoseEstimationComponent implements OnInit, OnDestroy {
         this.time--;
       } else {
         this.stopTimer();
+        this.isSaved = true;
       }
     }, 1000);
   }
@@ -77,6 +75,7 @@ export class PoseEstimationComponent implements OnInit, OnDestroy {
     this.webcam_init();
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
       navigator.mediaDevices.getUserMedia({ video: true }).then(() => {
+        this.isSaved = false;
         this.startTimer();
         this.isLoaded = true;
         const action$ = (model: posenet.PoseNet) =>
@@ -142,13 +141,21 @@ export class PoseEstimationComponent implements OnInit, OnDestroy {
     }
     if (
       this.time > 0
-      && prediction.keypoints[Points.nose].score > 0.9
-      && prediction.keypoints[Points.leftEye].score > 0.9
-      && prediction.keypoints[Points.rightEye].score > 0.9
-      && prediction.keypoints[Points.leftShoulder].score > 0.9
-      && prediction.keypoints[Points.rightShoulder].score > 0.9
+      && prediction.keypoints[Points.nose].score > 0.8
+      && prediction.keypoints[Points.leftEye].score > 0.8
+      && prediction.keypoints[Points.rightEye].score > 0.8
+      && prediction.keypoints[Points.leftShoulder].score > 0.8
+      && prediction.keypoints[Points.rightShoulder].score > 0.8
     ) {
       this.setValues(prediction);
+      this.loader.start();
+    }
+    if (this.time === 0) {
+      this.loader.stop();
+      this.loader.complete();
+      setTimeout(() => {
+        canvas.style.display = 'none';
+      }, 900);
     }
   }
 
@@ -194,15 +201,26 @@ export class PoseEstimationComponent implements OnInit, OnDestroy {
   }
 
   saveValues() {
-    this.nosexValue = this.mode(this.nosex);
-    this.noseyValue = this.mode(this.nosey);
-    this.leftEyexValue = this.mode(this.leftEyex);
-    this.leftEyeyValue = this.mode(this.leftEyey);
-    this.rightEyexValue = this.mode(this.rightEyex);
-    this.rightEyeyValue = this.mode(this.rightEyey);
-    this.leftShoulderxValue = this.mode(this.leftShoulderx);
-    this.leftShoulderyValue = this.mode(this.leftShouldery);
-    this.rightShoulderxValue = this.mode(this.rightShoulderx);
-    this.rightShoulderyValue = this.mode(this.rightShouldery);
+    this.poseService.addPose(
+      this.mode(this.nosex),
+      this.mode(this.nosey),
+      this.mode(this.leftEyex),
+      this.mode(this.leftEyey),
+      this.mode(this.rightEyex),
+      this.mode(this.rightEyey),
+      this.mode(this.leftShoulderx),
+      this.mode(this.leftShouldery),
+      this.mode(this.rightShoulderx),
+      this.mode(this.rightShouldery)
+    );
+  }
+
+  redirectTo(uri) {
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
+      this.router.navigate([uri]));
+  }
+
+  reload() {
+    this.redirectTo(this.router.url);
   }
 }

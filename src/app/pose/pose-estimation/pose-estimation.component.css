@@ -21,6 +21,26 @@
   transform: translate(-50%, -50%);
 }
 
+.save-posture {
+  width: 40%;
+  font-size: 18px;
+  border-radius: 30px;
+}
+
+.recapture {
+  color: #727272;
+}
+
+.recapture-link {
+  color: rgb(14, 106, 219);
+}
+
+.recapture-link:hover {
+  cursor: pointer;
+  text-decoration: underline;
+  color: rgb(14, 106, 219);
+}
+
 @media only screen and (max-width: 1200px) {
   .pose-video {
     width: 80%;
