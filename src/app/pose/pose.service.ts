@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { PoseData } from './pose-data.model';
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { Router, RoutesRecognized } from '@angular/router';
 import { environment } from 'src/environments/environment';
 
 const BACKEND_URL = environment.apiUrl + '/pose/';
