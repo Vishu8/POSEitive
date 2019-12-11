@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 
 const usersRoutes = require('./routes/user');
+const poseRoutes = require('./routes/pose');
 
 const app = express();
 
@@ -21,5 +22,6 @@ app.use(bodyParser.urlencoded({
 app.use(cors());
 
 app.use('/api/user', usersRoutes);
+app.use('/api/pose', poseRoutes);
 
 module.exports = app;

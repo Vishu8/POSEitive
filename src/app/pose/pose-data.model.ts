@@ -1,4 +1,5 @@
 export interface PoseData {
+  userId: string;
   nosexValue: number;
   noseyValue: number;
   leftEyexValue: number;

@@ -6,6 +6,7 @@ import { SubSink } from 'subsink';
 import { PoseService } from '../pose.service';
 import { Router } from '@angular/router';
 import { LoadingBarService } from '@ngx-loading-bar/core';
+import { AuthService } from 'src/app/auth/auth.service';
 
 enum Points { nose = 0, leftEye = 1, rightEye = 2, leftShoulder = 5, rightShoulder = 6 }
 @Component({
@@ -33,7 +34,12 @@ export class PoseEstimationComponent implements OnInit, OnDestroy {
   rightShoulderx = [];
   rightShouldery = [];
 
-  constructor(public poseService: PoseService, public loader: LoadingBarService, private router: Router) { }
+  constructor(
+    public poseService: PoseService,
+    public authService: AuthService,
+    public loader: LoadingBarService,
+    private router: Router
+  ) { }
 
   mode(pointValues: any[]) {
     const mode = {};
@@ -202,6 +208,7 @@ export class PoseEstimationComponent implements OnInit, OnDestroy {
 
   saveValues() {
     this.poseService.addPose(
+      this.authService.sendUserId(),
       this.mode(this.nosex),
       this.mode(this.nosey),
       this.mode(this.leftEyex),

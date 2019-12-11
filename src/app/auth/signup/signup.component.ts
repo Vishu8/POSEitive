@@ -1,6 +1,5 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
-import { Subscription } from 'rxjs';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { NgForm } from '@angular/forms';
 
@@ -9,19 +8,12 @@ import { NgForm } from '@angular/forms';
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.css']
 })
-export class SignUpComponent implements OnInit, OnDestroy {
+export class SignUpComponent implements OnInit {
   isActive = true;
-  private authStatusSub: Subscription;
+
   constructor(public authService: AuthService, public loader: LoadingBarService) { }
 
-  ngOnInit(): void {
-    this.authStatusSub = this.authService.getAuthStatusListner().subscribe(
-      (authStatus) => {
-        this.loader.stop();
-        console.log(authStatus);
-      }
-    );
-  }
+  ngOnInit(): void { }
 
   onSignup(form: NgForm) {
     if (form.invalid) {
@@ -29,11 +21,6 @@ export class SignUpComponent implements OnInit, OnDestroy {
     }
     this.loader.start();
     this.authService.createUser(form.value.fullname, form.value.email, form.value.password);
-    form.reset();
-  }
-
-  ngOnDestroy(): void {
-    this.authStatusSub.unsubscribe();
     this.loader.complete();
   }
 }
