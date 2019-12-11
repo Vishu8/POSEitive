@@ -131,6 +131,9 @@ export class PoseEstimationComponent implements OnInit, OnDestroy {
           this.video.play();
         };
       });
+    if (this.time === 0) {
+      this.video.pause();
+    }
   }
 
   renderPredictions = (prediction: posenet.Pose) => {
