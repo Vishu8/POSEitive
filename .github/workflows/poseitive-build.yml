@@ -13,6 +13,8 @@ jobs:
       run: sudo apt-get install nodejs
     - name: Install Angular CLI
       run: sudo npm install -g @angular/cli
+    - name: Install Angular Dev
+      run: sudo npm install --save-dev @angular-devkit/build-angular
     - name: Angular Server Run
       run: sudo ng serve
     - name: NodeJS Server Run
