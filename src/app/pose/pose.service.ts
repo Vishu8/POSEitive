@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 
-const BACKEND_URL = environment.apiUrl + '/pose/';
+const BACKEND_URL = environment.apiUrl + '/pose';
 @Injectable({ providedIn: 'root' })
 export class PoseService {
   constructor(private http: HttpClient, private router: Router) { }

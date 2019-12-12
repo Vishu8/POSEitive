@@ -20,6 +20,9 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.use(cors());
+app.use(cors({
+  exposedHeaders: ['Authorization'],
+}));
 
 app.use('/api/user', usersRoutes);
 app.use('/api/pose', poseRoutes);

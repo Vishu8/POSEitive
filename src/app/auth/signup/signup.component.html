@@ -26,27 +26,27 @@
     <mat-card-actions>
       <button mat-mini-fab class="signup" type="submit" color="primary">Sign Up</button>
     </mat-card-actions>
-    <mat-card-content class="login">
-      <p>Already a member? <a class="login-link" [routerLink]="['/auth/login']"
-          routerLinkActive="router-link-active">Login</a></p>
-    </mat-card-content>
-    <div class="strike">
-      <span>OR</span>
-    </div>
-    <p>Sign Up with:</p>
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-sm">
-          <button mat-mini-fab class="google">
-            <img src="assets/images/google.png">
-          </button>
-        </div>
-        <div class="col-sm">
-          <button mat-mini-fab class="facebook">
-            <img src="assets/images/facebook.png">
-          </button>
-        </div>
+  </form>
+  <mat-card-content class="login">
+    <p>Already a member? <a class="login-link" [routerLink]="['/auth/login']"
+        routerLinkActive="router-link-active">Login</a></p>
+  </mat-card-content>
+  <div class="strike">
+    <span>OR</span>
+  </div>
+  <p>Sign Up with:</p>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm">
+        <button mat-mini-fab class="google">
+          <img src="assets/images/google.png">
+        </button>
+      </div>
+      <div class="col-sm">
+        <button mat-mini-fab class="facebook">
+          <img src="assets/images/facebook.png">
+        </button>
       </div>
     </div>
-  </form>
+  </div>
 </mat-card>
