@@ -6,6 +6,7 @@ import { AuthData, UserData } from './auth-data.model';
 import { Subject } from 'rxjs';
 
 const BACKEND_URL = environment.apiUrl + '/user';
+const BACKEND_URL_POSE = environment.apiUrl + '/pose/';
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private isAuthenticated = false;
@@ -46,7 +47,18 @@ export class AuthService {
         this.userId = response.userId;
         this.authStatusListener.next(true);
         this.saveAuthData(this.token, this.userId);
-        this.router.navigate(['/home']);
+        sessionStorage.setItem('userId', this.userId);
+        this.http.get<{ message: string, status: number }>(BACKEND_URL_POSE + this.userId).subscribe((responseCheck) => {
+          if (responseCheck.status === 201) {
+            this.router.navigate(['/home']);
+          } else {
+            this.router.navigate(['/pose-estimation']);
+          }
+          console.log(responseCheck.message);
+        }, (error) => {
+          this.router.navigate(['/pose-estimation']);
+          console.log(error);
+        });
       }
       console.log(response.message);
     }, (error) => {

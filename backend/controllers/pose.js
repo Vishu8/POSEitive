@@ -24,3 +24,24 @@ exports.savePose = (req, res, next) => {
     });
   });
 };
+
+exports.checkPose = (req, res, next) => {
+  Pose.findOne({
+    userId: req.params.userId
+  }).then((isPose) => {
+    if (!isPose) {
+      return res.status(401).json({
+        message: 'No such UserId!',
+        status: 401
+      });
+    }
+    return res.status(201).json({
+      message: 'UserId Found!',
+      status: 201
+    });
+  }).catch((err) => {
+    return res.status(401).json({
+      message: 'No such Entry!'
+    });
+  });
+};
