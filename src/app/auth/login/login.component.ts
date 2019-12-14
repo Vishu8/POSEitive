@@ -1,26 +1,37 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LoadingBarService } from '@ngx-loading-bar/core';
-import { Router, RoutesRecognized } from '@angular/router';
-import { pairwise, filter } from 'rxjs/operators';
+import { AuthService } from '../auth.service';
+import { NgForm } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   isActive = true;
-  constructor(public loader: LoadingBarService, public router: Router) { }
+  private authStatusSub: Subscription;
+  constructor(private authService: AuthService, public loader: LoadingBarService) { }
 
   ngOnInit(): void {
-    this.router.events
-      .pipe(filter((evt: any) => evt instanceof RoutesRecognized), pairwise())
-      .subscribe((events: RoutesRecognized[]) => {
-        if (events[0].urlAfterRedirects === '/pose-estimation') {
-          window.location.assign('/');
-        }
-        console.log('previous url', events[0].urlAfterRedirects);
-        console.log('current url', events[1].urlAfterRedirects);
-      });
+    this.authStatusSub = this.authService.getAuthStatusListener().subscribe(
+      (authStatus) => {
+        console.log(authStatus);
+      }
+    );
+  }
+
+  onLogin(form: NgForm) {
+    if (form.invalid) {
+      return;
+    }
+    this.loader.start();
+    this.authService.login(form.value.email, form.value.password);
+    this.loader.complete();
+  }
+
+  ngOnDestroy(): void {
+    this.authStatusSub.unsubscribe();
   }
 }

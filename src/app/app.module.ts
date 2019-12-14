@@ -11,19 +11,21 @@ import {
   MatCardModule,
   MatInputModule,
   MatButtonModule,
-  MatIconModule,
-  MatProgressBarModule
+  MatIconModule
 } from '@angular/material';
 import { SignUpComponent } from './auth/signup/signup.component';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './auth/auth-interceptor';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PoseEstimationComponent,
     LoginComponent,
-    SignUpComponent
+    SignUpComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -35,10 +37,11 @@ import { HttpClientModule } from '@angular/common/http';
     MatCardModule,
     MatInputModule,
     MatButtonModule,
-    MatIconModule,
-    MatProgressBarModule
+    MatIconModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

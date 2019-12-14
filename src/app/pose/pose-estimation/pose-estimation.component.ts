@@ -4,9 +4,7 @@ import { from, defer, animationFrameScheduler, timer } from 'rxjs';
 import { concatMap, tap, observeOn, takeUntil, repeat } from 'rxjs/operators';
 import { SubSink } from 'subsink';
 import { PoseService } from '../pose.service';
-import { Router } from '@angular/router';
 import { LoadingBarService } from '@ngx-loading-bar/core';
-import { AuthService } from 'src/app/auth/auth.service';
 
 enum Points { nose = 0, leftEye = 1, rightEye = 2, leftShoulder = 5, rightShoulder = 6 }
 @Component({
@@ -20,6 +18,7 @@ export class PoseEstimationComponent implements OnInit, OnDestroy {
   video: HTMLVideoElement;
   isLoaded = false;
   time = 5;
+  duration = 5;
   mySubscription: any;
   interval: any;
   isSaved: boolean;
@@ -35,10 +34,8 @@ export class PoseEstimationComponent implements OnInit, OnDestroy {
   rightShouldery = [];
 
   constructor(
-    public poseService: PoseService,
-    public authService: AuthService,
-    public loader: LoadingBarService,
-    private router: Router
+    private poseService: PoseService,
+    public loader: LoadingBarService
   ) { }
 
   mode(pointValues: any[]) {
@@ -101,6 +98,9 @@ export class PoseEstimationComponent implements OnInit, OnDestroy {
             concatMap(model => action$(model)),
           ).subscribe()
         );
+        setTimeout(() => {
+          sessionStorage.removeItem('userId');
+        }, this.duration * 60000);
       });
     }
   }
@@ -211,7 +211,6 @@ export class PoseEstimationComponent implements OnInit, OnDestroy {
 
   saveValues() {
     this.poseService.addPose(
-      this.authService.sendUserId(),
       this.mode(this.nosex),
       this.mode(this.nosey),
       this.mode(this.leftEyex),
@@ -225,12 +224,7 @@ export class PoseEstimationComponent implements OnInit, OnDestroy {
     );
   }
 
-  redirectTo(uri) {
-    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
-      this.router.navigate([uri]));
-  }
-
   reload() {
-    this.redirectTo(this.router.url);
+    window.location.reload();
   }
 }
