@@ -15,11 +15,11 @@ exports.savePose = (req, res, next) => {
     rightShoulderyValue: req.body.rightShoulderyValue
   });
   pose.save().then((savedPose) => {
-    res.status(201).json({
+    return res.status(201).json({
       message: 'Pose Added Successfully!'
     });
   }).catch((error) => {
-    res.status(500).json({
+    return res.status(500).json({
       message: 'Failed to add Pose!'
     });
   });

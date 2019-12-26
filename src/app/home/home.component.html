@@ -1,2 +1,27 @@
 <ngx-loading-bar [color]="'#7B1FA2'"></ngx-loading-bar>
-<h1>Welcome!</h1>
+<app-navbar></app-navbar>
+<section>
+ <div class="container-fluid desc">
+    <div class="row">
+      <div class="text col-md-6">
+        <h1>Helping you to keep a better posture</h1>
+        <br>
+        <p>POSEitive is a posture monitoring app that will help you not only keep a good posture, but increase your
+          productivity and health.</p>
+        <div class="start-session">
+          <img src="assets/images/start_session.png">
+        </div>
+      </div>
+      <div class="col-md-6">
+        <img class="home-page" src="assets/images/home_page.png" alt="POSEitive">
+      </div>
+    </div>
+ </div>
+</section>
+<footer>
+  <div class="mini-footer">
+    <p>© {{ year }}
+      <a [routerLink]="['/home']" routerLinkActive="router-link-active" >POSEitive</a>. All rights reserved.
+    </p>
+  </div>
+</footer>

@@ -1,3 +1,95 @@
-h1 {
+div {
   color: whitesmoke;
+}
+
+.desc {
+  padding: 0px 80px;
+  margin-top: 5%;
+}
+
+.text {
+  margin-top: 10%;
+}
+
+.start-session img {
+  width: 40%;
+  cursor: pointer;
+}
+
+.mini-footer {
+  background: #192027;
+  text-align: center;
+  padding: 32px 0px;
+}
+
+footer {
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  margin-bottom: 0px;
+}
+
+.mini-footer p {
+  margin: 0;
+  line-height: 26px;
+  font-size: 15px;
+  color: #999;
+}
+
+.mini-footer p a {
+  color: #5867dd;
+}
+
+.mini-footer p a:hover {
+  color: #34bfa3;
+  text-decoration: none;
+}
+
+@media only screen and (max-width: 1024px) {
+  .home-page {
+    width: 100%;
+    margin-top: 15%;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .desc {
+    padding: 0px 30px;
+  }
+
+  .home-page {
+    width: 100%;
+    margin-top: 25%;
+  }
+}
+
+@media only screen and (max-width: 415px) {
+  .desc {
+    padding: 20px;
+    margin-top: 0%;
+  }
+
+  .text {
+    margin-top: 5%;
+  }
+
+  .home-page {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 320px) {
+  .desc {
+    padding: 20px;
+    margin-top: 0%;
+  }
+
+  .text {
+    margin-top: 5%;
+  }
+
+  .home-page {
+    width: 100%;
+  }
 }

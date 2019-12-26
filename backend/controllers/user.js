@@ -11,12 +11,12 @@ exports.createUser = (req, res, next) => {
       password: hash
     });
     user.save().then((result) => {
-      res.status(201).json({
+      return res.status(201).json({
         message: 'User Created Successfully!',
         userId: result._id
       });
     }).catch((err) => {
-      res.status(500).json({
+      return res.status(500).json({
         message: 'User Credentials already Exists!'
       });
     });
@@ -48,11 +48,11 @@ exports.userLogin = (req, res, next) => {
       algorithm: 'HS512',
       noTimestamp: true
     });
-    res.status(200).json({
+    return res.status(200).json({
       message: 'Logged In!',
       token: token,
       userId: fetchedUser._id,
-      expiresIn: 86400
+      username: fetchedUser.fullname
     });
   }).catch((err) => {
     return res.status(401).json({
