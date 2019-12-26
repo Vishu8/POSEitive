@@ -11,13 +11,16 @@ import {
   MatCardModule,
   MatInputModule,
   MatButtonModule,
-  MatIconModule
+  MatIconModule,
+  MatToolbarModule,
+  MatMenuModule
 } from '@angular/material';
 import { SignUpComponent } from './auth/signup/signup.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './auth/auth-interceptor';
 import { HomeComponent } from './home/home.component';
+import { NavBarComponent } from './navbar/navbar.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +28,7 @@ import { HomeComponent } from './home/home.component';
     PoseEstimationComponent,
     LoginComponent,
     SignUpComponent,
+    NavBarComponent,
     HomeComponent
   ],
   imports: [
@@ -37,7 +41,9 @@ import { HomeComponent } from './home/home.component';
     MatCardModule,
     MatInputModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    MatToolbarModule,
+    MatMenuModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }

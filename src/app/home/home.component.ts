@@ -10,10 +10,13 @@ import { Subscription } from 'rxjs';
 export class HomeComponent implements OnInit, OnDestroy {
   userId: string;
   userIsAuthenticated = false;
+  year: number;
   private authStatusSub: Subscription;
   constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
+    const date = new Date();
+    this.year = date.getFullYear();
     this.userId = this.authService.getUserId();
     this.userIsAuthenticated = this.authService.getIsAuth();
     this.authStatusSub = this.authService.getAuthStatusListener().subscribe((isAuthenticated) => {
