@@ -207,7 +207,7 @@ export class PoseSessionComponent implements OnInit, OnDestroy {
           this.status = 'Correct';
           this.invokeError(false);
         }
-      }, 200);
+      }, 500);
       this.pr('Resume');
     }
   }
