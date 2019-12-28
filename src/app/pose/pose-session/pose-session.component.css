@@ -1,0 +1,27 @@
+section {
+  margin-top: 3%;
+  padding: 0px 50px;
+}
+
+.nav-text {
+  font-size: 22px;
+  color: whitesmoke;
+  margin-right: 10%;
+}
+
+.text {
+  color: whitesmoke;
+  margin-top: 8%;
+}
+
+.center {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+}
+
+.stop-session {
+  width: 50%;
+  font-size: 18px;
+  border-radius: 30px;
+}

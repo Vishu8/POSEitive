@@ -13,13 +13,12 @@
       <mat-error *ngIf="fullnameInput.invalid">Please Enter Valid Name!</mat-error>
     </mat-form-field>
     <mat-form-field>
-      <input matInput ngModel name="email" type="email" placeholder="Email" #emailInput="ngModel" required>
+      <input matInput ngModel name="email" type="email" placeholder="Email" #emailInput="ngModel" required email>
       <mat-icon matSuffix>email</mat-icon>
       <mat-error *ngIf="emailInput.invalid">Please Enter Valid Email!</mat-error>
     </mat-form-field>
     <mat-form-field>
-      <input matInput ngModel name="password" type="password" placeholder="Password" #passwordInput="ngModel" required
-        email>
+      <input matInput ngModel name="password" type="password" placeholder="Password" #passwordInput="ngModel" required>
       <mat-icon matSuffix>lock</mat-icon>
       <mat-error *ngIf="passwordInput.invalid">Please Enter Valid Password!</mat-error>
     </mat-form-field>

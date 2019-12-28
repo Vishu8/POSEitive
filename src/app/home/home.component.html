@@ -4,12 +4,12 @@
  <div class="container-fluid desc">
     <div class="row">
       <div class="text col-md-6">
-        <h1>Helping you to keep a better posture</h1>
+        <h1 class="text-title">Helping you to keep a better posture</h1>
         <br>
         <p>POSEitive is a posture monitoring app that will help you not only keep a good posture, but increase your
           productivity and health.</p>
         <div class="start-session">
-          <img src="assets/images/start_session.png">
+          <img src="assets/images/start_session.png" (click)="poseSession()">
         </div>
       </div>
       <div class="col-md-6">
@@ -18,10 +18,4 @@
     </div>
  </div>
 </section>
-<footer>
-  <div class="mini-footer">
-    <p>© {{ year }}
-      <a [routerLink]="['/home']" routerLinkActive="router-link-active" >POSEitive</a>. All rights reserved.
-    </p>
-  </div>
-</footer>
+<app-footer></app-footer>
