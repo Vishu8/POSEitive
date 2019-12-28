@@ -21,7 +21,7 @@ export class ErrorInterceptor implements HttpInterceptor {
           setTimeout(() => {
             this.dialog.closeAll();
             this.router.navigate(['/pose-estimation']);
-          }, 3000);
+          }, 1000);
         }
         return throwError(error);
       })

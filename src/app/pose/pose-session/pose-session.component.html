@@ -20,6 +20,10 @@
         <div class="center">
           <h4><span>{{ hours }} h</span> : <span>{{ minutes }} m</span> : <span>{{ seconds }} s</span></h4>
         </div>
+        <br>
+        <div class="center">
+          <h2>{{status}}</h2>
+        </div>
         <br><br>
         <div class="center">
           <button mat-mini-fab class="stop-session" color="warn" (click)="stopSession()">Stop Session</button>
@@ -28,3 +32,15 @@
     </div>
   </div>
 </section>
+<div class="modal fade" id="myModal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Alert!</h4>
+      </div>
+      <div class="modal-body">
+        Wrong Posture!
+      </div>
+    </div>
+  </div>
+</div>

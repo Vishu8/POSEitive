@@ -1,10 +1,13 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as posenet from '@tensorflow-models/posenet';
 import { from, defer, animationFrameScheduler, timer, Subscription } from 'rxjs';
 import { concatMap, tap, observeOn, takeUntil, repeat } from 'rxjs/operators';
 import { SubSink } from 'subsink';
 import { AuthService } from 'src/app/auth/auth.service';
 import { PoseService } from '../pose.service';
+import { PoseData } from '../pose-data.model';
+
+declare var $: any;
 
 @Component({
   selector: 'app-pose-session',
@@ -25,17 +28,42 @@ export class PoseSessionComponent implements OnInit, OnDestroy {
   isRunning: boolean;
   userIsAuthenticated = false;
   name: string;
+  userPoseData: PoseData;
+  errorCount: number;
+  status: string;
   private authListenerSubs: Subscription;
-  constructor(private authService: AuthService, private poseService: PoseService) { }
+  constructor(
+    private authService: AuthService,
+    private poseService: PoseService
+  ) { }
+
+  invokeError(errorCase) {
+    if (errorCase === true) {
+      setTimeout(() => {
+        this.errorCount++;
+      }, 1000);
+      if (this.errorCount === 80) {
+        this.status = 'Wrong Posture';
+        this.pr('Pause');
+        $('#myModal').modal('show');
+        setTimeout(() => {
+          $('#myModal').modal('hide');
+          this.errorCount = 0;
+          this.pr('Resume');
+        }, 3000);
+      }
+    } else {
+      this.errorCount = 0;
+    }
+  }
 
   incr() {
     if (this.hours === 2) {
-      this.pr('Stop');
-      sessionStorage.removeItem('sessionId');
       alert('You have been sitting for more than 2hrs. Take a little break and comeback to work.');
       setTimeout(() => {
         window.location.assign('/home');
       }, 600000);
+      sessionStorage.removeItem('sessionId');
     }
 
     if (this.isRunning === true && this.hours !== 2) {
@@ -81,6 +109,8 @@ export class PoseSessionComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.errorCount = 0;
+    this.status = 'Status';
     this.action = 'Start';
     this.isRunning = false;
     this.hours = 0;
@@ -164,11 +194,21 @@ export class PoseSessionComponent implements OnInit, OnDestroy {
       prediction.keypoints[2].score < 0.8 &&
       prediction.keypoints[5].score < 0.8 &&
       prediction.keypoints[6].score < 0.8
-      ) {
-        this.pr('Pause');
-      } else {
-        this.pr('Resume');
-      }
+    ) {
+      this.pr('Pause');
+    } else {
+      this.userPoseData = this.poseService.getUserCoordinates();
+      setTimeout(() => {
+        if (this.compare(prediction) === true) {
+          this.status = 'Incorrect';
+          this.invokeError(true);
+        } else {
+          this.status = 'Correct';
+          this.invokeError(false);
+        }
+      }, 100);
+      this.pr('Resume');
+    }
   }
 
   drawPoint(ctx: CanvasRenderingContext2D, y: number, x: number, r: number, color: string) {
@@ -200,8 +240,41 @@ export class PoseSessionComponent implements OnInit, OnDestroy {
   }
 
   stopSession() {
-    this.pr('Stop');
-    sessionStorage.removeItem('sessionId');
     window.location.assign('/home');
+    sessionStorage.removeItem('sessionId');
+  }
+
+  compare(prediction) {
+    const limit = 50;
+    if (
+      prediction.keypoints[0].position.x > this.userPoseData.nosexValue + limit ||
+      prediction.keypoints[0].position.y > this.userPoseData.noseyValue + limit ||
+      prediction.keypoints[1].position.x > this.userPoseData.leftEyexValue + limit ||
+      prediction.keypoints[1].position.y > this.userPoseData.leftEyeyValue + limit ||
+      prediction.keypoints[2].position.x > this.userPoseData.rightEyexValue + limit ||
+      prediction.keypoints[2].position.y > this.userPoseData.rightEyeyValue + limit ||
+      prediction.keypoints[5].position.x > this.userPoseData.leftShoulderxValue + limit ||
+      prediction.keypoints[5].position.y > this.userPoseData.leftShoulderyValue + limit ||
+      prediction.keypoints[6].position.x > this.userPoseData.rightShoulderxValue + limit ||
+      prediction.keypoints[6].position.y > this.userPoseData.rightShoulderyValue + limit
+
+    ) {
+      return true;
+    } else if (
+      prediction.keypoints[0].position.x < this.userPoseData.nosexValue - limit ||
+      prediction.keypoints[0].position.y < this.userPoseData.noseyValue - limit ||
+      prediction.keypoints[1].position.x < this.userPoseData.leftEyexValue - limit ||
+      prediction.keypoints[1].position.y < this.userPoseData.leftEyeyValue - limit ||
+      prediction.keypoints[2].position.x < this.userPoseData.rightEyexValue - limit ||
+      prediction.keypoints[2].position.y < this.userPoseData.rightEyeyValue - limit ||
+      prediction.keypoints[5].position.x < this.userPoseData.leftShoulderxValue - limit ||
+      prediction.keypoints[5].position.y < this.userPoseData.leftShoulderyValue - limit ||
+      prediction.keypoints[6].position.x < this.userPoseData.rightShoulderxValue - limit ||
+      prediction.keypoints[6].position.y < this.userPoseData.rightShoulderyValue - limit
+    ) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

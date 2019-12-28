@@ -19,7 +19,7 @@ exports.savePose = (req, res, next) => {
     return res.status(201).json({
       message: 'Pose Added Successfully!'
     });
-  }).catch((error) => {
+  }).catch((err) => {
     return res.status(500).json({
       message: 'Failed to add Pose!'
     });
@@ -65,8 +65,8 @@ exports.saveSession = (req, res, next) => {
   });
 };
 
-exports.updateSession = async (req, res, next) => {
-  Session.update({
+exports.updateSession = (req, res, next) => {
+  Session.updateOne({
     _id: req.params.sessionId
   }, {
     sessionTime: req.params.time
@@ -74,14 +74,14 @@ exports.updateSession = async (req, res, next) => {
     return res.status(201).json({
       message: 'Time Updated!'
     });
-  }).catch((error) => {
+  }).catch((err) => {
     return res.status(500).json({
       message: 'Time Updating Failed!'
     });
   });
 };
 
-exports.getSessionDetails = async (req, res, next) => {
+exports.getSessionDetails = (req, res, next) => {
   Session.findOne({
     userId: req.params.userId,
     startTime: req.params.time
@@ -94,6 +94,22 @@ exports.getSessionDetails = async (req, res, next) => {
     return res.status(500).json({
       id: null,
       message: 'Session Id Not Found!'
+    });
+  });
+};
+
+exports.getUserCoordinates = (req, res, next) => {
+  Pose.findOne({
+    userId: req.params.userId,
+  }).then((result) => {
+    return res.status(201).json({
+      result: result,
+      message: 'Pose Coordinates Found!'
+    });
+  }).catch((err) => {
+    return res.status(500).json({
+      result: err,
+      message: 'Pose Coordinates Not Found!'
     });
   });
 };

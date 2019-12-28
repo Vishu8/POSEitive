@@ -8,6 +8,7 @@ const BACKEND_URL = environment.apiUrl + '/pose';
 const SESSION_URL = environment.apiUrl + '/pose/session';
 @Injectable({ providedIn: 'root' })
 export class PoseService {
+  poseData: PoseData;
   constructor(private http: HttpClient) { }
 
   addPose(
@@ -55,7 +56,9 @@ export class PoseService {
     this.http.post<{ message: string }>(SESSION_URL, sessionData).subscribe((responseData) => {
       console.log(responseData.message);
     });
-    this.getSessionDetails(time);
+    setTimeout(() => {
+      this.getSessionDetails(time);
+    }, 500);
   }
 
   updateCurrentTime(time) {
@@ -75,5 +78,16 @@ export class PoseService {
         console.log(responseBody.message);
       }
     );
+  }
+
+  getUserCoordinates() {
+    const GET_USER_URL = environment.apiUrl + '/pose/get-user-coordinates/' + localStorage.getItem('userId');
+    this.http.get<{ result: PoseData, message: string }>(GET_USER_URL).subscribe(
+      (responseUser) => {
+        this.poseData = responseUser.result;
+        console.log(responseUser.message);
+      }
+    );
+    return this.poseData;
   }
 }
