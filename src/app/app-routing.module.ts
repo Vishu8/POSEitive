@@ -5,6 +5,7 @@ import { SignUpComponent } from './auth/signup/signup.component';
 import { PoseEstimationComponent } from './pose/pose-estimation/pose-estimation.component';
 import { HomeComponent } from './home/home.component';
 import { AuthGuard } from './auth/auth.guard';
+import { PoseSessionComponent } from './pose/pose-session/pose-session.component';
 
 
 const routes: Routes = [
@@ -12,7 +13,8 @@ const routes: Routes = [
   { path: 'auth/login', component: LoginComponent },
   { path: 'auth/signup', component: SignUpComponent },
   { path: 'pose-estimation', component: PoseEstimationComponent },
-  { path: 'home', component: HomeComponent, canActivate: [AuthGuard] }
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
+  { path: 'pose-session', component: PoseSessionComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({

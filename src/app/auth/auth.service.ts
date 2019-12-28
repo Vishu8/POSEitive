@@ -38,6 +38,9 @@ export class AuthService {
       sessionStorage.setItem('userId', response.userId);
       this.router.navigate(['/pose-estimation']);
       console.log(response.message);
+    }, (error) => {
+      this.authStatusListener.next(false);
+      console.log(error);
     });
   }
 
@@ -56,12 +59,8 @@ export class AuthService {
         this.http.get<{ message: string, status: number }>(BACKEND_URL_POSE + this.userId).subscribe((responseCheck) => {
           if (responseCheck.status === 201) {
             this.router.navigate(['/home']);
-          } else {
-            this.router.navigate(['/pose-estimation']);
           }
-          console.log(responseCheck.message);
         }, (error) => {
-          this.router.navigate(['/pose-estimation']);
           console.log(error);
         });
       }

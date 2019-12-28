@@ -13,7 +13,8 @@ import {
   MatButtonModule,
   MatIconModule,
   MatToolbarModule,
-  MatMenuModule
+  MatMenuModule,
+  MatDialogModule
 } from '@angular/material';
 import { SignUpComponent } from './auth/signup/signup.component';
 import { FormsModule } from '@angular/forms';
@@ -21,15 +22,22 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './auth/auth-interceptor';
 import { HomeComponent } from './home/home.component';
 import { NavBarComponent } from './navbar/navbar.component';
+import { FooterComponent } from './footer/footer.component';
+import { ErrorComponent } from './error/error.component';
+import { ErrorInterceptor } from './error-interceptor';
+import { PoseSessionComponent } from './pose/pose-session/pose-session.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PoseEstimationComponent,
+    PoseSessionComponent,
     LoginComponent,
     SignUpComponent,
     NavBarComponent,
-    HomeComponent
+    HomeComponent,
+    FooterComponent,
+    ErrorComponent
   ],
   imports: [
     BrowserModule,
@@ -43,11 +51,14 @@ import { NavBarComponent } from './navbar/navbar.component';
     MatButtonModule,
     MatIconModule,
     MatToolbarModule,
-    MatMenuModule
+    MatMenuModule,
+    MatDialogModule
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [ErrorComponent]
 })
 export class AppModule { }

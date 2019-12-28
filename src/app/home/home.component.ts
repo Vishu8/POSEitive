@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
 import { Subscription } from 'rxjs';
@@ -10,19 +11,20 @@ import { Subscription } from 'rxjs';
 export class HomeComponent implements OnInit, OnDestroy {
   userId: string;
   userIsAuthenticated = false;
-  year: number;
   private authStatusSub: Subscription;
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
-    const date = new Date();
-    this.year = date.getFullYear();
     this.userId = this.authService.getUserId();
     this.userIsAuthenticated = this.authService.getIsAuth();
     this.authStatusSub = this.authService.getAuthStatusListener().subscribe((isAuthenticated) => {
       this.userIsAuthenticated = isAuthenticated;
       this.userId = this.authService.getUserId();
     });
+  }
+
+  poseSession() {
+    this.router.navigate(['/pose-session']);
   }
 
   ngOnDestroy(): void {

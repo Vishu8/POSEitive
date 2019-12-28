@@ -1,0 +1,30 @@
+<ngx-loading-bar [color]="'#7B1FA2'"></ngx-loading-bar>
+<nav class="navbar navbar-expand-lg navbar-dark">
+  <a class="navbar-brand" [routerLink]="['/home']" routerLinkActive="router-link-active" ><img src="assets/images/poseitive-logo.png" alt="POSEitive"></a>
+  <ul class="navbar-nav justify-content-end ml-auto nav-text">
+    <li>{{ name }}</li>
+  </ul>
+</nav>
+<section>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-6">
+        <video hidden id="vid" width="700" height="500"></video>
+        <canvas id="canvas"></canvas>
+      </div>
+      <div class="text col-md-6" *ngIf="isLoaded">
+        <div class="center">
+          <h1>Session Timer</h1>
+        </div>
+        <br>
+        <div class="center">
+          <h4><span>{{ hours }} h</span> : <span>{{ minutes }} m</span> : <span>{{ seconds }} s</span></h4>
+        </div>
+        <br><br>
+        <div class="center">
+          <button mat-mini-fab class="stop-session" color="warn" (click)="stopSession()">Stop Session</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
