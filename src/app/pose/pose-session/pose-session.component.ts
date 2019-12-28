@@ -42,10 +42,11 @@ export class PoseSessionComponent implements OnInit, OnDestroy {
       setTimeout(() => {
         this.errorCount++;
       }, 1000);
-      if (this.errorCount === 80) {
+      if (this.errorCount === 50) {
         this.status = 'Wrong Posture';
         this.pr('Pause');
         $('#myModal').modal('show');
+        $('#myAudio')[0].play();
         setTimeout(() => {
           $('#myModal').modal('hide');
           this.errorCount = 0;
@@ -206,7 +207,7 @@ export class PoseSessionComponent implements OnInit, OnDestroy {
           this.status = 'Correct';
           this.invokeError(false);
         }
-      }, 100);
+      }, 200);
       this.pr('Resume');
     }
   }
