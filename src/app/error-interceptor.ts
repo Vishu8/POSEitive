@@ -21,7 +21,12 @@ export class ErrorInterceptor implements HttpInterceptor {
           setTimeout(() => {
             this.dialog.closeAll();
             this.router.navigate(['/pose-estimation']);
-          }, 1000);
+          }, 1);
+        }
+        if (error.error.message === 'Time Updating Failed!') {
+          setTimeout(() => {
+            this.dialog.closeAll();
+          }, 1);
         }
         return throwError(error);
       })

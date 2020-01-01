@@ -21,3 +21,29 @@
     <p class="recapture">Not your right posture? <a class="recapture-link" (click)="reload()">Recapture Posture</a></p>
   </div>
 </div>
+<div class="modal fade" id="myModal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Alert!</h4>
+        <button type="button" class="close" data-dismiss="modal" (click)="toHome()">&times;</button>
+      </div>
+      <div class="modal-body">
+        No WebCam Detected!
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="myModal2" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Alert!</h4>
+        <button type="button" class="close" data-dismiss="modal" (click)="toHome()">&times;</button>
+      </div>
+      <div class="modal-body">
+        WebCam Access Needed!
+      </div>
+    </div>
+  </div>
+</div>

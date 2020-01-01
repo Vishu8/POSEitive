@@ -5,6 +5,9 @@ import { concatMap, tap, observeOn, takeUntil, repeat } from 'rxjs/operators';
 import { SubSink } from 'subsink';
 import { PoseService } from '../pose.service';
 import { LoadingBarService } from '@ngx-loading-bar/core';
+import { Router } from '@angular/router';
+
+declare var $: any;
 
 enum Points { nose = 0, leftEye = 1, rightEye = 2, leftShoulder = 5, rightShoulder = 6 }
 @Component({
@@ -35,7 +38,8 @@ export class PoseEstimationComponent implements OnInit, OnDestroy {
 
   constructor(
     private poseService: PoseService,
-    public loader: LoadingBarService
+    public loader: LoadingBarService,
+    private router: Router
   ) { }
 
   mode(pointValues: any[]) {
@@ -78,30 +82,36 @@ export class PoseEstimationComponent implements OnInit, OnDestroy {
     this.webcam_init();
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
       navigator.mediaDevices.getUserMedia({ video: true }).then(() => {
-        this.isSaved = false;
-        this.startTimer();
         this.isLoaded = true;
-        const action$ = (model: posenet.PoseNet) =>
-          defer(() => model.estimateSinglePose(this.video)).pipe(
-            observeOn(animationFrameScheduler),
-            tap((prediction: posenet.Pose) => this.renderPredictions(prediction)),
-            takeUntil(timer(1000)),
-            repeat()
-          );
-        this.subs.add(
-          from(posenet.load({
-            architecture: 'MobileNetV1',
-            outputStride: 16,
-            inputResolution: 257,
-            quantBytes: 2
-          })).pipe(
-            concatMap(model => action$(model)),
-          ).subscribe()
-        );
         setTimeout(() => {
-          sessionStorage.removeItem('userId');
-        }, this.duration * 60000);
+          this.isSaved = false;
+          this.startTimer();
+          const action$ = (model: posenet.PoseNet) =>
+            defer(() => model.estimateSinglePose(this.video)).pipe(
+              observeOn(animationFrameScheduler),
+              tap((prediction: posenet.Pose) => this.renderPredictions(prediction)),
+              takeUntil(timer(1000)),
+              repeat()
+            );
+          this.subs.add(
+            from(posenet.load({
+              architecture: 'MobileNetV1',
+              outputStride: 16,
+              inputResolution: 257,
+              quantBytes: 2
+            })).pipe(
+              concatMap(model => action$(model)),
+            ).subscribe()
+          );
+          setTimeout(() => {
+            sessionStorage.removeItem('userId');
+          }, this.duration * 60000);
+        }, 5000);
+      }).catch(() => {
+        $('#myModal2').modal('show');
       });
+    } else {
+      $('#myModal').modal('show');
     }
   }
 
@@ -226,5 +236,9 @@ export class PoseEstimationComponent implements OnInit, OnDestroy {
 
   reload() {
     window.location.reload();
+  }
+
+  toHome() {
+    this.router.navigate(['/']);
   }
 }

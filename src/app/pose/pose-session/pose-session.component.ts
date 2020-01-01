@@ -6,6 +6,7 @@ import { SubSink } from 'subsink';
 import { AuthService } from 'src/app/auth/auth.service';
 import { PoseService } from '../pose.service';
 import { PoseData } from '../pose-data.model';
+import { Router } from '@angular/router';
 
 declare var $: any;
 
@@ -34,7 +35,8 @@ export class PoseSessionComponent implements OnInit, OnDestroy {
   private authListenerSubs: Subscription;
   constructor(
     private authService: AuthService,
-    private poseService: PoseService
+    private poseService: PoseService,
+    private router: Router
   ) { }
 
   invokeError(errorCase) {
@@ -60,7 +62,7 @@ export class PoseSessionComponent implements OnInit, OnDestroy {
 
   incr() {
     if (this.hours === 2) {
-      alert('You have been sitting for more than 2hrs. Take a little break and comeback to work.');
+      $('#myModal2').modal('show');
       setTimeout(() => {
         window.location.assign('/home');
       }, 600000);
@@ -111,7 +113,7 @@ export class PoseSessionComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.errorCount = 0;
-    this.status = 'Status';
+    this.status = 'Posture Status';
     this.action = 'Start';
     this.isRunning = false;
     this.hours = 0;
@@ -145,7 +147,11 @@ export class PoseSessionComponent implements OnInit, OnDestroy {
             concatMap(model => action$(model)),
           ).subscribe()
         );
+      }).catch(() => {
+        $('#myModal4').modal('show');
       });
+    } else {
+      $('#myModal3').modal('show');
     }
   }
 
@@ -197,6 +203,7 @@ export class PoseSessionComponent implements OnInit, OnDestroy {
       prediction.keypoints[6].score < 0.8
     ) {
       this.pr('Pause');
+      this.status = 'Posture Status';
     } else {
       this.userPoseData = this.poseService.getUserCoordinates();
       setTimeout(() => {
@@ -207,7 +214,7 @@ export class PoseSessionComponent implements OnInit, OnDestroy {
           this.status = 'Correct';
           this.invokeError(false);
         }
-      }, 500);
+      }, 1000);
       this.pr('Resume');
     }
   }
@@ -277,5 +284,9 @@ export class PoseSessionComponent implements OnInit, OnDestroy {
     } else {
       return false;
     }
+  }
+
+  toHome() {
+    this.router.navigate(['/home']);
   }
 }
