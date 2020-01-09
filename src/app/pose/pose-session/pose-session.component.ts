@@ -64,7 +64,7 @@ export class PoseSessionComponent implements OnInit, OnDestroy {
     if (this.hours === 2) {
       $('#myModal2').modal('show');
       setTimeout(() => {
-        window.location.assign('/home');
+        window.location.assign('/');
       }, 600000);
       sessionStorage.removeItem('sessionId');
     }
@@ -248,7 +248,7 @@ export class PoseSessionComponent implements OnInit, OnDestroy {
   }
 
   stopSession() {
-    window.location.assign('/home');
+    window.location.assign('/');
     sessionStorage.removeItem('sessionId');
   }
 
