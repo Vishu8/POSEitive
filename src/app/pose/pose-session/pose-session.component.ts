@@ -31,6 +31,7 @@ export class PoseSessionComponent implements OnInit, OnDestroy {
   name: string;
   userPoseData: PoseData;
   errorCount: number;
+  wrongCount: number;
   status: string;
   private authListenerSubs: Subscription;
   constructor(
@@ -45,6 +46,8 @@ export class PoseSessionComponent implements OnInit, OnDestroy {
         this.errorCount++;
       }, 1000);
       if (this.errorCount === 50) {
+        this.wrongCount++;
+        this.poseService.updateWrongPosture(this.wrongCount);
         this.status = 'Wrong Posture';
         this.pr('Pause');
         $('#myModal').modal('show');
@@ -92,6 +95,9 @@ export class PoseSessionComponent implements OnInit, OnDestroy {
   pr(action) {
     if (action === 'Start') {
       this.poseService.addSession();
+      setTimeout(() => {
+        this.poseService.sendWrongPosture(this.wrongCount);
+      }, 1000);
       this.incr();
       this.isRunning = true;
       this.action = 'Pause';
@@ -113,6 +119,7 @@ export class PoseSessionComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.errorCount = 0;
+    this.wrongCount = 0;
     this.status = 'Posture Status';
     this.action = 'Start';
     this.isRunning = false;
