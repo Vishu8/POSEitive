@@ -4,3 +4,9 @@ export interface PoseSession {
   startTime: string;
   sessionTime: string;
 }
+
+export interface WrongPosture {
+  userId: string;
+  sessionId: string;
+  wrongCount: number;
+}
