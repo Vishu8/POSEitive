@@ -15,7 +15,8 @@ import {
   MatIconModule,
   MatToolbarModule,
   MatMenuModule,
-  MatDialogModule
+  MatDialogModule,
+  MatExpansionModule
 } from '@angular/material';
 import { SignUpComponent } from './auth/signup/signup.component';
 import { FormsModule } from '@angular/forms';
@@ -27,6 +28,7 @@ import { FooterComponent } from './footer/footer.component';
 import { ErrorComponent } from './error/error.component';
 import { ErrorInterceptor } from './error-interceptor';
 import { PoseSessionComponent } from './pose/pose-session/pose-session.component';
+import { SessionLogComponent } from './session-log/session-log.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +39,7 @@ import { PoseSessionComponent } from './pose/pose-session/pose-session.component
     SignUpComponent,
     NavBarComponent,
     HomeComponent,
+    SessionLogComponent,
     FooterComponent,
     ErrorComponent
   ],
@@ -53,7 +56,8 @@ import { PoseSessionComponent } from './pose/pose-session/pose-session.component
     MatIconModule,
     MatToolbarModule,
     MatMenuModule,
-    MatDialogModule
+    MatDialogModule,
+    MatExpansionModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

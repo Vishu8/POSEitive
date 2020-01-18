@@ -1,0 +1,26 @@
+<app-navbar></app-navbar>
+<h1 class="session-header">{{ name }}'s Session Log</h1>
+<br>
+<div class="date">
+  <span>Today</span>
+</div>
+<div class="session-accordion">
+  <mat-accordion multi="true">
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <b class="session-time">Session {{ startTime }}</b>
+      </mat-expansion-panel-header>
+      <div class="session-contents">
+        <p>Start Time: {{ startTime }}</p>
+        <p>End Time: {{ endTime }}</p>
+        <p>Session Duration: {{ sessionDuration }}</p>
+        <p>No. of Wrong Postures: {{ countPosture }}</p>
+      </div>
+      <mat-action-row>
+        <span id="postureAlert" *ngIf="countPosture >= 10">Alert! You were unusually sitting in wrong posture many times!</span>
+        <span id="posturePerfect" *ngIf="countPosture < 10">Cheers! Your body posture was fine!</span>
+      </mat-action-row>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>
+<app-footer></app-footer>

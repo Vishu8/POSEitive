@@ -9,7 +9,7 @@
     <li>
       <button mat-button class="name" [matMenuTriggerFor]="menu">Hi, {{ name }} <span style="font-size: 10px;">▼</span></button>
       <mat-menu #menu="matMenu">
-        <button mat-menu-item>Session Log</button>
+        <a [routerLink]="['/session-log']"><button mat-menu-item>Session Log</button></a>
         <button mat-menu-item>Account Settings</button>
       </mat-menu>
     </li>
