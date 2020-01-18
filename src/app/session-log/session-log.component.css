@@ -1,0 +1,31 @@
+.date,
+.session-header,
+.session-accordion {
+  color: whitesmoke;
+  padding: 0% 10%;
+}
+
+.session-header {
+  margin-top: 30px;
+}
+
+.date {
+  font-size: medium;
+  margin-bottom: 10px;
+}
+
+.session-contents p {
+  color: #c9c5c5;
+}
+
+mat-action-row {
+  font-size: larger;
+}
+
+#postureAlert {
+  color: #F44A3E;
+}
+
+#posturePerfect {
+  color: #69F0AE;
+}
