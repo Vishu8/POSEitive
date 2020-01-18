@@ -47,7 +47,9 @@ export class PoseSessionComponent implements OnInit, OnDestroy {
       }, 1000);
       if (this.errorCount === 50) {
         this.wrongCount++;
-        this.poseService.updateWrongPosture(this.wrongCount);
+        setTimeout(() => {
+          this.poseService.updateWrongPosture(this.wrongCount);
+        }, 800);
         this.status = 'Wrong Posture';
         this.pr('Pause');
         $('#myModal').modal('show');
@@ -94,10 +96,7 @@ export class PoseSessionComponent implements OnInit, OnDestroy {
   }
   pr(action) {
     if (action === 'Start') {
-      this.poseService.addSession();
-      setTimeout(() => {
-        this.poseService.sendWrongPosture(this.wrongCount);
-      }, 1000);
+      this.poseService.addSession(this.wrongCount);
       this.incr();
       this.isRunning = true;
       this.action = 'Pause';
@@ -120,7 +119,7 @@ export class PoseSessionComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.errorCount = 0;
     this.wrongCount = 0;
-    this.status = 'Posture Status';
+    this.status = 'Idle';
     this.action = 'Start';
     this.isRunning = false;
     this.hours = 0;
@@ -210,7 +209,7 @@ export class PoseSessionComponent implements OnInit, OnDestroy {
       prediction.keypoints[6].score < 0.8
     ) {
       this.pr('Pause');
-      this.status = 'Posture Status';
+      this.status = 'Idle';
     } else {
       this.userPoseData = this.poseService.getUserCoordinates();
       setTimeout(() => {

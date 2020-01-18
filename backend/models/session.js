@@ -16,6 +16,10 @@ const sessionSchema = mongoose.Schema({
   sessionTime: {
     type: String,
     required: true
+  },
+  wrongCount: {
+    type: Number,
+    required: true
   }
 });
 

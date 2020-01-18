@@ -28,7 +28,7 @@ import { FooterComponent } from './footer/footer.component';
 import { ErrorComponent } from './error/error.component';
 import { ErrorInterceptor } from './error-interceptor';
 import { PoseSessionComponent } from './pose/pose-session/pose-session.component';
-import { SessionLogComponent } from './session-log/session-log.component';
+import { SessionLogComponent } from './session/session-log/session-log.component';
 
 @NgModule({
   declarations: [

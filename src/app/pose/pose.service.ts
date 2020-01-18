@@ -2,15 +2,13 @@ import { Injectable } from '@angular/core';
 import { PoseData } from './pose-data.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { PoseSession, WrongPosture } from './pose-session.model';
+import { PoseSession } from './pose-session.model';
 
 const BACKEND_URL = environment.apiUrl + '/pose';
 const SESSION_URL = environment.apiUrl + '/pose/session';
-const SEND_WRONG_POSTURE_URL = environment.apiUrl + '/pose/session/send-wrong-posture';
 @Injectable({ providedIn: 'root' })
 export class PoseService {
   poseData: PoseData;
-  wrongPosture: WrongPosture;
   constructor(private http: HttpClient) { }
 
   addPose(
@@ -45,7 +43,7 @@ export class PoseService {
     });
   }
 
-  addSession() {
+  addSession(wrongCount: number) {
     const todayDate = new Date().toLocaleDateString();
     const time = new Date().toLocaleTimeString();
     const sessionStart = '0:0:0';
@@ -53,7 +51,8 @@ export class PoseService {
       userId: localStorage.getItem('userId'),
       date: todayDate,
       startTime: time,
-      sessionTime: sessionStart
+      sessionTime: sessionStart,
+      wrongCount
     };
     this.http.post<{ message: string }>(SESSION_URL, sessionData).subscribe((responseData) => {
       console.log(responseData.message);
@@ -71,7 +70,14 @@ export class PoseService {
       }
     );
   }
-
+  updateWrongPosture(wrongCount: number) {
+    const UPDATE_WRONG_POSTURE_URL = environment.apiUrl + '/pose/session/update/' + sessionStorage.getItem('sessionId') + '/' + wrongCount;
+    return this.http.get<{ message: string }>(UPDATE_WRONG_POSTURE_URL).subscribe(
+      (responseWrongMessage) => {
+        console.log(responseWrongMessage.message);
+      }
+    );
+  }
   getSessionDetails(time) {
     const GET_SESSION_URL = environment.apiUrl + '/pose/get-session-details/' + localStorage.getItem('userId') + '/' + time;
     return this.http.get<{ id: string, message: string }>(GET_SESSION_URL).subscribe(
@@ -91,26 +97,5 @@ export class PoseService {
       }
     );
     return this.poseData;
-  }
-
-  sendWrongPosture(wrongCount: number) {
-    console.log(wrongCount);
-    const wrongPosture: WrongPosture = {
-      userId: localStorage.getItem('userId'),
-      sessionId: sessionStorage.getItem('sessionId'),
-      wrongCount
-    };
-    return this.http.post<{ message: string }>(SEND_WRONG_POSTURE_URL, wrongPosture).subscribe((response) => {
-      console.log(response.message);
-    });
-  }
-
-  updateWrongPosture(wrongCount: number) {
-    const UPDATE_WRONG_POSTURE_URL = environment.apiUrl + '/pose/session/update/' + sessionStorage.getItem('sessionId') + '/' + wrongCount;
-    return this.http.get<{ message: string }>(UPDATE_WRONG_POSTURE_URL).subscribe(
-      (responseWrongMessage) => {
-        console.log(responseWrongMessage.message);
-      }
-    );
   }
 }

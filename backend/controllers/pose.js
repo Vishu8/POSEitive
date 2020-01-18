@@ -1,6 +1,5 @@
 const Pose = require('../models/pose');
 const Session = require('../models/session');
-const WrongPosture = require('../models/wrong-posture');
 
 exports.savePose = (req, res, next) => {
   const pose = new Pose({
@@ -53,7 +52,8 @@ exports.saveSession = (req, res, next) => {
     userId: req.body.userId,
     date: req.body.date,
     startTime: req.body.startTime,
-    sessionTime: req.body.sessionTime
+    sessionTime: req.body.sessionTime,
+    wrongCount: req.body.wrongCount
   });
   session.save().then((savedSession) => {
     return res.status(201).json({
@@ -78,6 +78,22 @@ exports.updateSession = (req, res, next) => {
   }).catch((err) => {
     return res.status(500).json({
       message: 'Time Updating Failed!'
+    });
+  });
+};
+
+exports.updateWrongPosture = (req, res, next) => {
+  Session.updateOne({
+    _id: req.params.sessionId
+  }, {
+    wrongCount: req.params.wrongCount
+  }).then((result) => {
+    return res.status(201).json({
+      message: 'Wrong Posture Updated!'
+    });
+  }).catch((err) => {
+    return res.status(500).json({
+      message: 'Wrong Posture Updating Failed!'
     });
   });
 };
@@ -111,40 +127,6 @@ exports.getUserCoordinates = (req, res, next) => {
     return res.status(500).json({
       result: err,
       message: 'Pose Coordinates Not Found!'
-    });
-  });
-};
-
-exports.sendWrongPosture = (req, res, next) => {
-  const sendWrongPosture = new WrongPosture({
-    userId: req.body.userId,
-    sessionId: req.body.sessionId,
-    wrongCount: req.body.wrongCount
-  });
-  console.log(sendWrongPosture);
-  sendWrongPosture.save().then(() => {
-    return res.status(201).json({
-      message: 'Wrong Posture Sent!'
-    });
-  }).catch((err) => {
-    return res.status(500).json({
-      message: 'Failed to add Wrong Posture!'
-    });
-  });
-};
-
-exports.updateWrongPosture = (req, res, next) => {
-  WrongPosture.updateOne({
-    sessionId: req.params.sessionId
-  }, {
-    wrongCount: req.params.wrongCount
-  }).then((result) => {
-    return res.status(201).json({
-      message: 'Wrong Posture Updated!'
-    });
-  }).catch((err) => {
-    return res.status(500).json({
-      message: 'Wrong Posture Updating Failed!'
     });
   });
 };

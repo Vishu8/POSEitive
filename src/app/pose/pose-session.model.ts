@@ -3,10 +3,14 @@ export interface PoseSession {
   date: string;
   startTime: string;
   sessionTime: string;
+  wrongCount: number;
 }
 
-export interface WrongPosture {
+export interface PoseSessionLog {
+  _id: string;
   userId: string;
-  sessionId: string;
+  date: string;
+  startTime: string;
+  sessionTime: string;
   wrongCount: number;
 }

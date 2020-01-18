@@ -1,6 +1,8 @@
+import { SessionService } from './../session.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { AuthService } from '../auth/auth.service';
+import { AuthService } from '../../auth/auth.service';
 import { Subscription } from 'rxjs';
+import { PoseSessionLog } from 'src/app/pose/pose-session.model';
 
 @Component({
   selector: 'app-session-log',
@@ -15,18 +17,17 @@ export class SessionLogComponent implements OnInit, OnDestroy {
   startTime: string;
   endTime: string;
   sessionDuration: string;
+  sessionLogs: PoseSessionLog[];
   private authListenerSubs: Subscription;
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private sessionService: SessionService) { }
   ngOnInit(): void {
-    this.startTime = '11:30';
-    this.endTime = '12:30';
-    this.sessionDuration = '30 mins';
-    this.countPosture = 12;
     this.userIsAuthenticated = this.authService.getIsAuth();
     this.authListenerSubs = this.authService.getAuthStatusListener().subscribe((isAuthenticated) => {
       this.userIsAuthenticated = isAuthenticated;
     });
     this.name = this.authService.getUserName();
+    this.sessionLogs = this.sessionService.getSessionLogs();
+    console.log(this.sessionLogs);
   }
 
   onLogout() {
