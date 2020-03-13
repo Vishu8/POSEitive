@@ -1,8 +1,11 @@
-import { SessionService } from './../session.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../auth/auth.service';
 import { Subscription } from 'rxjs';
-import { PoseSessionLog } from 'src/app/pose/pose-session.model';
+import { SessionLog } from 'src/app/session/session.model';
+import { environment } from 'src/environments/environment';
+
+const BACKEND_URL = environment.apiUrl + '/session/';
 
 @Component({
   selector: 'app-session-log',
@@ -17,17 +20,28 @@ export class SessionLogComponent implements OnInit, OnDestroy {
   startTime: string;
   endTime: string;
   sessionDuration: string;
-  sessionLogs: PoseSessionLog[];
+  sessionLogs: SessionLog[];
   private authListenerSubs: Subscription;
-  constructor(private authService: AuthService, private sessionService: SessionService) { }
+  constructor(private authService: AuthService, private http: HttpClient) { }
   ngOnInit(): void {
     this.userIsAuthenticated = this.authService.getIsAuth();
     this.authListenerSubs = this.authService.getAuthStatusListener().subscribe((isAuthenticated) => {
       this.userIsAuthenticated = isAuthenticated;
     });
     this.name = this.authService.getUserName();
-    this.sessionLogs = this.sessionService.getSessionLogs();
-    console.log(this.sessionLogs);
+    this.http.get<{ message: string, result: SessionLog[] }>(BACKEND_URL + localStorage.getItem('userId')).subscribe(
+      (response) => {
+        this.sessionLogs = response.result;
+        return this.sessionLogs;
+      }
+    );
+  }
+
+  getHelp() {
+    window.open(
+      'https://dotslash-poseitive.vizfolio.co/',
+      '_blank'
+    );
   }
 
   onLogout() {

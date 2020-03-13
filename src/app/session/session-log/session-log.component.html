@@ -16,8 +16,9 @@
         <p>No. of Wrong Postures: {{ log.wrongCount }}</p>
       </div>
       <mat-action-row>
-        <span id="postureAlert" *ngIf="log.wrongCount >= 10">Alert! You were unusually sitting in wrong posture many times!</span>
-        <span id="posturePerfect" *ngIf="log.wrongCount < 10">Cheers! Your body posture was fine!</span>
+        <span id="postureAlert" *ngIf="log.wrongCount >= 5">Alert! You were unusually sitting in wrong posture many times!</span>
+        <button mat-raised-button color="warn" (click)="getHelp()" *ngIf="log.wrongCount >= 5">Get Help</button>
+        <span id="posturePerfect" *ngIf="log.wrongCount < 5">Cheers! Your body posture was fine!</span>
       </mat-action-row>
     </mat-expansion-panel>
   </mat-accordion>
